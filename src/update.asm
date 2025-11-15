@@ -28,6 +28,10 @@ update:
 
 // ---------------------------------------------------------------------
 launch_bomb:
+  lda #1
+  cmp bomb_on
+  beq launch_bomb_done
+  sta bomb_on
   // Same X as the plane
   lda SPRITE0_X
   sta SPRITE1_X
@@ -35,6 +39,7 @@ launch_bomb:
   lda SPRITE0_Y
   sta SPRITE1_Y
   jsr enable_bomb
+launch_bomb_done:
   rts
 
 // ---------------------------------------------------------------------
@@ -49,4 +54,6 @@ disable_bomb:
   lda #%11111101
   and SPRITES_ENABLE
   sta SPRITES_ENABLE
+  lda #0
+  sta bomb_on
   rts
