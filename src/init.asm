@@ -49,3 +49,8 @@ done_tower:
 done_town:
   rts
 }
+
+counter: .byte 0
+column: .byte 10    // First column of the town
+block: .byte 91, 98, 107, 115, 107, 115, 226
+width: .byte 12  // Width of the town
