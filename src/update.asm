@@ -32,21 +32,24 @@ launch_bomb:
   cmp bomb_on
   beq launch_bomb_done
   sta bomb_on
-  // Same X as the plane
+
+  // Same X as the plane, but aligned on the previous multiple of 8, so
+  // it's aligned with the towers.
   lda SPRITE0_X
   sta SPRITE1_X
-  // Y in the ~middle~ of the plane
+  lda #%11111000
+  and SPRITE1_X
+  sta SPRITE1_X
+
+  // Appears more or less in the middle of the plane
   lda SPRITE0_Y
   sta SPRITE1_Y
-  jsr enable_bomb
-launch_bomb_done:
-  rts
 
-// ---------------------------------------------------------------------
-enable_bomb:
+  // Enable_bomb
   lda #%00000010
   ora SPRITES_ENABLE
   sta SPRITES_ENABLE
+launch_bomb_done:
   rts
 
 // ---------------------------------------------------------------------
