@@ -16,6 +16,7 @@ game_loop:
 #import "src/update.asm"
 #import "src/render.asm"
 #import "src/inputs.asm"
+#import "src/variables.asm"
 #import "src/external_routines.asm"
 
 *=$2000 "Sprites"

@@ -27,7 +27,7 @@ update:
   rts
 
 // ---------------------------------------------------------------------
-display_bomb:
+launch_bomb:
   // Same X as the plane
   lda SPRITE0_X
   sta SPRITE1_X

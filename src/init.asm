@@ -27,30 +27,25 @@ init:
 draw_town: {
   StoreWord(SCREEN_ROW_24, TOWER_BASE_PTR)
   RandomRange(3, 11)
-  sta counter
-  ldy column
+  sta tower_height
+  ldy town_left_column
   RandomRange(0, 7)
   tax
-  lda block,x
+  lda tower_face,x
   sta BLOCK_PTR
 draw_tower:
   lda BLOCK_PTR
   sta (TOWER_BASE_PTR),y
-  dec counter
+  dec tower_height
   beq done_tower
   SubWordLByte(TOWER_BASE_PTR, $28)
   LongDelay(30)
   jmp draw_tower
 done_tower:
-  dec width
+  dec town_width
   beq done_town
-  inc column
+  inc town_left_column
   jmp draw_town
 done_town:
   rts
 }
-
-counter: .byte 0
-column: .byte 10    // First column of the town
-block: .byte 91, 98, 107, 115, 107, 115, 226
-width: .byte 12  // Width of the town

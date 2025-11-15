@@ -1,10 +1,10 @@
 // ---------------------------------------------------------------------
 inputs:
   {
-    // if any keypress then display_bomb
+    // if any keypress then launch a bomb
     jsr GETIN
     beq then
-    jsr display_bomb
+    jsr launch_bomb
     then:
   }
   rts
