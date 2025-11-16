@@ -2,6 +2,7 @@ BasicUpstart2(start)
 
 #import "6502lib/macros.asm"
 #import "c64lib/macros.asm"
+#import "src/constants.asm"
 
 start:
   jsr init

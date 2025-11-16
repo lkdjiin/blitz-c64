@@ -1,7 +1,3 @@
-.const SCREEN_ROW_24 = $07c0
-.const TOWER_BASE_PTR = $10
-.const BLOCK_PTR = $12
-
 // ---------------------------------------------------------------------
 init:
   jsr rnd.init
@@ -14,7 +10,7 @@ init:
 
   SetSpriteProperty(SPRITE1_X, 100)
   SetSpriteProperty(SPRITE1_Y, 100)
-  SetSpriteProperty(SPRITE1_COLOR, ORANGE)
+  SetSpriteProperty(SPRITE1_COLOR, LIGHT_RED)
   SetSpriteProperty(SPRITE1_POINTER, $81)
 
   SetBlackBackground()
