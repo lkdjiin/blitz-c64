@@ -10,6 +10,8 @@ game_loop:
   jsr update
   jsr render
   jsr inputs
+  lda game_lost
+  bne start
   jmp game_loop
   rts
 

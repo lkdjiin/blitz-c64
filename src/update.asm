@@ -10,7 +10,9 @@ update:
     cmp plane_collision
     bne next
     jsr plane_fall
-    brk // TODO temporary
+    lda #1
+    sta game_lost
+    rts
     next:
   }
   jsr detect_bomb_collison

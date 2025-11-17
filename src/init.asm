@@ -2,6 +2,16 @@
 init:
   jsr rnd.init
 
+  lda #0
+  sta game_lost
+  sta bomb_on
+  sta bomb_collision
+  sta plane_collision
+  lda #TOWN_LEFT_COLUMN
+  sta town_left_column
+  lda #TOWN_WIDTH
+  sta town_width
+
   SetSpriteProperty(SPRITE0_X, 24)
   SetSpriteProperty(SPRITE0_Y, 50)
   SetSpriteProperty(SPRITE0_COLOR, GREEN)
