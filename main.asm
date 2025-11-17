@@ -12,6 +12,8 @@ game_loop:
   jsr inputs
   lda game_lost
   bne start
+  lda game_won
+  bne start
   jmp game_loop
   rts
 

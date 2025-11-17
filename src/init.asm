@@ -4,6 +4,7 @@ init:
 
   lda #0
   sta game_lost
+  sta game_won
   sta bomb_on
   sta bomb_collision
   sta plane_collision

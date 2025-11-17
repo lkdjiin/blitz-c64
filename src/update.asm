@@ -24,6 +24,7 @@ update:
     jsr destroy_tower_char
     next:
   }
+  jsr detect_win
   rts
 
 // ---------------------------------------------------------------------
@@ -368,3 +369,21 @@ plane_fall:
   LongDelay(255)
   LongDelay(255)
   rts
+
+// ---------------------------------------------------------------------
+// Temporary routine to detect win.
+detect_win: {
+  // If plane is at 255,226 it's a win!
+  lda SPRITE0_X
+  cmp #255
+  bne no
+  lda SPRITE0_Y
+  cmp #234
+  beq yes
+  no:
+    rts
+  yes:
+    lda #1
+    sta game_won
+  rts
+}
