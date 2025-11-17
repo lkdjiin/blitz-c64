@@ -5,26 +5,21 @@ update:
   jsr update_plane
   jsr detect_plane_collision
   {
-    // TODO Plutôt retourner le status de collision dans A et remplacer par
-    // seulement :
-    // bne next
-    // brk
-    // next:
-
     // If `plane_collision` == 1 then exit
     lda #1
     cmp plane_collision
     bne next
+    jsr plane_fall
     brk // TODO temporary
     next:
   }
   jsr detect_bomb_collison
   {
-    // If `bomb_collision` == 1 then exit
+    // If `bomb_collision` == 1 then destroy the tower char
     lda #1
     cmp bomb_collision
     bne next
-    brk // TODO temporary
+    jsr destroy_tower_char
     next:
   }
   rts
@@ -170,7 +165,6 @@ detect_plane_collision: {
   lda #$20
   ldy #0
   cmp (LOCATION_PTR),y
-  // TODO Is it possible to rts right here? So the Z flag contains the collision status?
   beq done_collision
   lda #1
   sta plane_collision
@@ -243,8 +237,9 @@ detect_bomb_collison: {
   jsr convert_coord_px_to_char
   sta row
 
-  // Target location in VRAM to spot a tower : (col,row) = (col+1, row+2)
+  // Target location in VRAM to spot a tower : (col,row) = (col+1, row+3)
   inc col
+  inc row
   inc row
   inc row
 
@@ -351,3 +346,23 @@ convert_char_coord_to_vram_address: {
 
   rts
 }
+
+// ---------------------------------------------------------------------
+destroy_tower_char:
+  // VRAM address in LOCATION_PTR must be intact from the previous
+  // collision's detection routine.
+  lda #$20
+  ldy #0
+  sta (LOCATION_PTR),y
+  rts
+
+// ---------------------------------------------------------------------
+plane_fall:
+  LongDelay(15)
+  inc SPRITE0_Y
+  lda #236
+  cmp SPRITE0_Y
+  bne plane_fall
+  LongDelay(255)
+  LongDelay(255)
+  rts
