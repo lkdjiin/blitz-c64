@@ -144,40 +144,16 @@ detect_plane_collision: {
   lda SPRITE0_Y
   sta plane_y
 
-  // "Normalise" x and y coords. (the top left corner of the visible screen is
-  // 24,50 in pixel.
-  //
-  // X = X - 24
-  sec
-  lda plane_x
-  sbc #24
-  sta plane_x
-  // Y = Y - 50
-  sec
-  lda plane_y
-  sbc #50
-  sta plane_y
+  ldx plane_x
+  ldy plane_y
+  jsr normalise_sprite_position
 
-  // Converts x,y in pixels into col,row
-  //
-  // mul : floor multiple of 8
-  // (col,row) = (mul(x)/8, mul(y)/8)
-  lda plane_x
-  sta col
-  lda #%11111000
-  and col
-  lsr
-  lsr
-  lsr
+  txa
+  jsr convert_coord_px_to_char
   sta col
 
-  lda plane_y
-  sta row
-  lda #%11111000
-  and row
-  lsr
-  lsr
-  lsr
+  tya
+  jsr convert_coord_px_to_char
   sta row
 
   // Target location in VRAM to spot a tower : (col,row) = (col+3, row+1)
@@ -186,39 +162,15 @@ detect_plane_collision: {
   inc col
   inc row
 
-  // location = VRAM + (40 * r) + c
-  // If location != 0 then collision
-  {
-    // Put row (8bits) into LOCATION (16bits)
-    lda #0
-    sta LOCATION_PTR + 1
-    lda row
-    sta LOCATION_PTR
-
-    // To multiply by 40 => shift shift add shift shift shift
-    ShiftLeftWord(LOCATION_PTR)
-    ShiftLeftWord(LOCATION_PTR)
-    AddWordMByte(LOCATION_PTR, row) // LOCATION = LOCATION + row
-    ShiftLeftWord(LOCATION_PTR)
-    ShiftLeftWord(LOCATION_PTR)
-    ShiftLeftWord(LOCATION_PTR)
-
-    AddWordMByte(LOCATION_PTR, col) // LOCATION = LOCATION + col (8bits)
-
-    // location = location + VRAM (both 16 bits)
-    clc
-    lda LOCATION_PTR
-    adc vram
-    sta LOCATION_PTR
-    lda LOCATION_PTR + 1
-    adc vram + 1
-    sta LOCATION_PTR + 1
-  }
+  ldx col
+  ldy row
+  jsr convert_char_coord_to_vram_address
 
   // If location == space character then exit, else plane_collision = 1
   lda #$20
   ldy #0
   cmp (LOCATION_PTR),y
+  // TODO Is it possible to rts right here? So the Z flag contains the collision status?
   beq done_collision
   lda #1
   sta plane_collision
@@ -279,40 +231,16 @@ detect_bomb_collison: {
   lda SPRITE1_Y
   sta bomb_y
 
-  // "Normalise" x and y coords. (the top left corner of the visible screen is
-  // 24,50 in pixel.
-  //
-  // X = X - 24
-  sec
-  lda bomb_x
-  sbc #24
-  sta bomb_x
-  // Y = Y - 50
-  sec
-  lda bomb_y
-  sbc #50
-  sta bomb_y
+  ldx bomb_x
+  ldy bomb_y
+  jsr normalise_sprite_position
 
-  // Converts x,y in pixels into col,row
-  //
-  // mul : floor multiple of 8
-  // (col,row) = (mul(x)/8, mul(y)/8)
-  lda bomb_x
-  sta col
-  lda #%11111000
-  and col
-  lsr
-  lsr
-  lsr
+  txa
+  jsr convert_coord_px_to_char
   sta col
 
-  lda bomb_y
-  sta row
-  lda #%11111000
-  and row
-  lsr
-  lsr
-  lsr
+  tya
+  jsr convert_coord_px_to_char
   sta row
 
   // Target location in VRAM to spot a tower : (col,row) = (col+1, row+2)
@@ -320,34 +248,9 @@ detect_bomb_collison: {
   inc row
   inc row
 
-  // location = VRAM + (40 * r) + c
-  // If location != 0 then collision
-  {
-    // Put row (8bits) into LOCATION (16bits)
-    lda #0
-    sta LOCATION_PTR + 1
-    lda row
-    sta LOCATION_PTR
-
-    // To multiply by 40 => shift shift add shift shift shift
-    ShiftLeftWord(LOCATION_PTR)
-    ShiftLeftWord(LOCATION_PTR)
-    AddWordMByte(LOCATION_PTR, row) // LOCATION = LOCATION + row
-    ShiftLeftWord(LOCATION_PTR)
-    ShiftLeftWord(LOCATION_PTR)
-    ShiftLeftWord(LOCATION_PTR)
-
-    AddWordMByte(LOCATION_PTR, col) // LOCATION = LOCATION + col (8bits)
-
-    // location = location + VRAM (both 16 bits)
-    clc
-    lda LOCATION_PTR
-    adc vram
-    sta LOCATION_PTR
-    lda LOCATION_PTR + 1
-    adc vram + 1
-    sta LOCATION_PTR + 1
-  }
+  ldx col
+  ldy row
+  jsr convert_char_coord_to_vram_address
 
   // If location == space character then exit, else bomb_collision = 1
   lda #$20
@@ -357,5 +260,94 @@ detect_bomb_collison: {
   lda #1
   sta bomb_collision
   done_collision:
+  rts
+}
+
+// ---------------------------------------------------------------------
+// Normalise (kind of) x and y coords of a sprite.
+// (the top left corner of the visible screen is 24,50 in pixel.)
+//
+// X - Sprite x
+// Y - Sprite y
+//
+// Returns normalized x and y coords in X and Y.
+normalise_sprite_position:
+  // x = x - 24
+  txa
+  sec
+  sbc #24
+  tax
+  // y = y - 50
+  tya
+  sec
+  sbc #50
+  tay
+  rts
+
+// ---------------------------------------------------------------------
+// Converts pixel coord into character coords.
+//
+// A - A pixel coordinate, either x or y.
+//
+// Returns A, the character coord.
+convert_coord_px_to_char: {
+  // Local variables
+  jmp after_vars
+    temp: .byte 0
+  after_vars:
+
+  sta temp
+  lda #%11111000 // Floor multiple of 8
+  and temp
+  lsr
+  lsr
+  lsr
+  rts
+}
+
+// ---------------------------------------------------------------------
+// Converts char coords into VRAM address of the char.
+// Formula : VRAM + (40 * row) + column.
+//
+// X - character column
+// Y - character row
+//
+// Writes the VRAM address in LOCATION_PTR.
+// Destroys A.
+convert_char_coord_to_vram_address: {
+  // Local variables
+  jmp after_vars
+    col: .byte 0
+    row: .byte 0
+    vram: .word $0400
+  after_vars:
+
+  // Puts row (8bits) into LOCATION_PTR (16bits)
+  lda #0
+  sta LOCATION_PTR + 1
+  sty LOCATION_PTR
+
+  stx col
+  sty row
+
+  // Multiply by 40
+  ShiftLeftWord(LOCATION_PTR)     // x 2
+  ShiftLeftWord(LOCATION_PTR)     // x 4
+  AddWordMByte(LOCATION_PTR, row) // x 5
+  ShiftLeftWord(LOCATION_PTR)     // x 10
+  ShiftLeftWord(LOCATION_PTR)     // x 20
+  ShiftLeftWord(LOCATION_PTR)     // x 40
+
+  AddWordMByte(LOCATION_PTR, col)
+
+  // To finish, add the VRAM base address.
+  clc
+  lda LOCATION_PTR
+  adc vram
+  sta LOCATION_PTR
+  lda LOCATION_PTR + 1
+  adc vram + 1
+  sta LOCATION_PTR + 1
+
   rts
 }
