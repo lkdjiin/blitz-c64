@@ -9,7 +9,7 @@ init:
   SetSpriteProperty(SPRITES_ENABLE, %00000001)
 
   SetSpriteProperty(SPRITE1_X, 100)
-  SetSpriteProperty(SPRITE1_Y, 100)
+  SetSpriteProperty(SPRITE1_Y, 0)
   SetSpriteProperty(SPRITE1_COLOR, LIGHT_RED)
   SetSpriteProperty(SPRITE1_POINTER, $81)
 
