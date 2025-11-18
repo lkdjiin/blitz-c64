@@ -22,6 +22,8 @@ update:
     cmp bomb_collision
     bne next
     jsr destroy_tower_char
+    jsr GAME.increment_score
+    jsr INFOZONE.display_score
     next:
   }
   jsr detect_win

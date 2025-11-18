@@ -5,15 +5,20 @@ BasicUpstart2(start)
 #import "src/constants.asm"
 
 start:
+game_new:
   jsr init
 game_loop:
   jsr update
   jsr render
   jsr inputs
+  // If lost then reset score and start a new game, else continue
   lda game_lost
-  bne start
+  beq continue
+  jsr GAME.reset_score
+  jmp game_new
+continue:
   lda game_won
-  bne start
+  bne game_new
   jmp game_loop
   rts
 
@@ -21,6 +26,7 @@ game_loop:
 #import "src/update.asm"
 #import "src/render.asm"
 #import "src/inputs.asm"
+#import "src/game.asm"
 #import "src/infozone.asm"
 #import "src/variables.asm"
 #import "src/external_routines.asm"

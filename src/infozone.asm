@@ -31,6 +31,21 @@ draw: {
 height: .byte 25
 } // draw
 
+display_score: {
+  // TODO Make a macro
+  ldx #8
+  ldy #34
+  clc
+  jsr PLOT
+
+  // TODO Make a macro
+  ldx GAME.score
+  lda GAME.score + 1
+  jsr LINPRT
+
+  rts
+} // display_score
+
 map:
 .byte $55,$43,$43,$43,$43,$43,$43,$49
 .byte $42,$66,$66,$66,$66,$66,$66,$42
@@ -40,7 +55,7 @@ map:
 .byte $42,$20,$20,$20,$20,$20,$20,$42
 .byte $42,$13,$03,$0f,$12,$05,$3a,$42 // SCORE:
 .byte $42,$20,$20,$20,$20,$20,$20,$42
-.byte $42,$20,$30,$30,$30,$30,$20,$42 //  0000
+.byte $42,$20,$30,$20,$20,$20,$20,$42 //  0
 .byte $42,$20,$20,$20,$20,$20,$20,$42
 .byte $42,$7f,$7f,$7f,$7f,$7f,$7f,$42
 .byte $42,$7f,$7f,$7f,$7f,$7f,$7f,$42

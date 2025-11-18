@@ -8,6 +8,7 @@ init:
   sta bomb_on
   sta bomb_collision
   sta plane_collision
+
   lda #TOWN_LEFT_COLUMN
   sta town_left_column
   lda #TOWN_WIDTH
@@ -29,6 +30,7 @@ init:
   ClearScreen()
 
   jsr INFOZONE.draw
+  jsr INFOZONE.display_score
   jsr draw_town
   rts
 
