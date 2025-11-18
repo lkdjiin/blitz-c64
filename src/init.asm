@@ -27,6 +27,8 @@ init:
   SetBlackBackground()
   SetYellowText()
   ClearScreen()
+
+  jsr INFOZONE.draw
   jsr draw_town
   rts
 

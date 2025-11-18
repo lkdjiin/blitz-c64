@@ -4,5 +4,6 @@
 
 // Zero page
 .const TOWER_BASE_PTR = $02 // Pointer for the base VRAM address of a tower
+.const GENERAL_PTR = $02 // Also named like this for general usage
 .const BLOCK_PTR = $04 // Pointer on a tower face (a char)
 .const LOCATION_PTR = $22 // Pointer on a memory location (of a tower) possibly hit by the plane

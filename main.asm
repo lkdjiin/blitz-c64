@@ -21,6 +21,7 @@ game_loop:
 #import "src/update.asm"
 #import "src/render.asm"
 #import "src/inputs.asm"
+#import "src/infozone.asm"
 #import "src/variables.asm"
 #import "src/external_routines.asm"
 
