@@ -31,6 +31,7 @@ init:
 
   jsr INFOZONE.draw
   jsr INFOZONE.display_score
+  jsr INFOZONE.display_level
   jsr draw_town
   rts
 

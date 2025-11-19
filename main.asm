@@ -17,8 +17,12 @@ game_loop:
   jsr GAME.reset_score
   jmp game_new
 continue:
+  // If level won then inc level and new game, else continue
   lda game_won
-  bne game_new
+  beq continue2
+  jsr GAME.increment_level
+  jmp game_new
+continue2:
   jmp game_loop
   rts
 
