@@ -16,6 +16,7 @@ game_loop:
   beq continue
   jsr GAME.reset_score
   jsr GAME.reset_speed
+  jsr GAME.reset_level
   jmp game_new
 continue:
   // If level won then inc level and new game, else continue
