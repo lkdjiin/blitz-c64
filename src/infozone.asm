@@ -32,17 +32,8 @@ height: .byte 25
 } // draw
 
 display_score: {
-  // TODO Make a macro
-  ldx #8
-  ldy #34
-  clc
-  jsr PLOT
-
-  // TODO Make a macro
-  ldx GAME.score
-  lda GAME.score + 1
-  jsr LINPRT
-
+  SetCursorPosition(34, 8)
+  PrintWord(GAME.score)
   rts
 } // display_score
 
