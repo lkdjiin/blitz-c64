@@ -39,7 +39,7 @@ init:
 // ---------------------------------------------------------------------
 draw_town: {
   StoreWord(SCREEN_ROW_24, TOWER_BASE_PTR)
-  RandomRange(3, 11)
+  RandomRange(3, 12)
   sta tower_height
   ldy town_left_column
   RandomRange(0, 7)

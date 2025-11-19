@@ -1,6 +1,8 @@
 // ---------------------------------------------------------------------
 update:
-  LongDelay(5)
+  ldx GAME.speed
+  jsr delay
+
   jsr update_bomb
   jsr update_plane
   jsr detect_plane_collision

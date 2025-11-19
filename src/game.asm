@@ -2,6 +2,7 @@ GAME: {
 
 score: .word 0
 level: .word 1
+speed: .byte 10
 
 // ---------------------------------------------------------------------
 increment_score: {
@@ -30,5 +31,16 @@ reset_level: {
   sta GAME.level + 1
   rts
 } // reset_level
+
+// ---------------------------------------------------------------------
+reset_speed: {
+  lda #INITIAL_SPEED
+  sta GAME.speed
+} // reset_speed
+
+// ---------------------------------------------------------------------
+speed_up: {
+  dec GAME.speed
+} // speed_up
 
 } // GAME

@@ -15,12 +15,14 @@ game_loop:
   lda game_lost
   beq continue
   jsr GAME.reset_score
+  jsr GAME.reset_speed
   jmp game_new
 continue:
   // If level won then inc level and new game, else continue
   lda game_won
   beq continue2
   jsr GAME.increment_level
+  jsr GAME.speed_up
   jmp game_new
 continue2:
   jmp game_loop
