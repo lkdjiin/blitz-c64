@@ -24,6 +24,7 @@ update:
     jsr destroy_tower_char
     jsr GAME.increment_score
     jsr INFOZONE.display_score
+    dec block_counter
     next:
   }
   jsr detect_win
@@ -373,18 +374,15 @@ plane_fall:
   rts
 
 // ---------------------------------------------------------------------
-// Temporary routine to detect win.
+// Win as soon as there is no more tower blocks left.
 detect_win: {
-  // If plane is at 255,226 it's a win!
-  lda SPRITE0_X
-  cmp #255
-  bne no
-  lda SPRITE0_Y
-  cmp #234
+  // If block_counter == 0 then it's a win!
+  lda block_counter 
   beq yes
   no:
     rts
   yes:
+    // TODO Make a pause
     lda #1
     sta game_won
   rts

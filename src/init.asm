@@ -8,6 +8,7 @@ init:
   sta bomb_on
   sta bomb_collision
   sta plane_collision
+  sta block_counter
 
   lda #TOWN_LEFT_COLUMN
   sta town_left_column
@@ -46,6 +47,7 @@ draw_town: {
   lda tower_face,x
   sta BLOCK_PTR
 draw_tower:
+  inc block_counter
   lda BLOCK_PTR
   sta (TOWER_BASE_PTR),y
   dec tower_height

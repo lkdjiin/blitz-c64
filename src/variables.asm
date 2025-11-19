@@ -1,3 +1,4 @@
+block_counter: .byte 0 // (towers are made of blocks) Number of tower's block on the screen
 bomb_on: .byte 0 // 1 if a bomb is currently visible, else 0
 bomb_collision: .byte 0 // 1 bomb hit a tower, else 0
 
