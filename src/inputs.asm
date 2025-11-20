@@ -4,7 +4,7 @@ inputs:
     // if any keypress then launch a bomb
     jsr GETIN
     beq then
-    jsr launch_bomb
+    jsr BOMB.launch
     then:
   }
   rts

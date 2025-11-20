@@ -3,7 +3,7 @@ update:
   ldx GAME.speed
   jsr delay
 
-  jsr update_bomb
+  jsr BOMB.update
   jsr update_plane
   jsr detect_plane_collision
   {
@@ -33,19 +33,6 @@ update:
   rts
 
 // ---------------------------------------------------------------------
-update_bomb:
-  inc SPRITE1_Y
-  {
-    // If Y == 229 then disable bomb
-    lda #229
-    cmp SPRITE1_Y
-    bne then
-    jsr disable_bomb
-    then:
-  }
-  rts
-
-// ---------------------------------------------------------------------
 update_plane:
   inc SPRITE0_X
   {
@@ -57,41 +44,6 @@ update_plane:
     sta SPRITE0_Y
     then:
   }
-  rts
-
-// ---------------------------------------------------------------------
-launch_bomb:
-  lda #1
-  cmp bomb_on
-  beq launch_bomb_done
-  sta bomb_on
-
-  // Same X as the plane, but aligned on the previous multiple of 8, so
-  // it's aligned with the towers.
-  lda SPRITE0_X
-  sta SPRITE1_X
-  lda #%11111000
-  and SPRITE1_X
-  sta SPRITE1_X
-
-  // Appears more or less in the middle of the plane
-  lda SPRITE0_Y
-  sta SPRITE1_Y
-
-  // Enable_bomb
-  lda #%00000010
-  ora SPRITES_ENABLE
-  sta SPRITES_ENABLE
-launch_bomb_done:
-  rts
-
-// ---------------------------------------------------------------------
-disable_bomb:
-  lda #%11111101
-  and SPRITES_ENABLE
-  sta SPRITES_ENABLE
-  lda #0
-  sta bomb_on
   rts
 
 // ---------------------------------------------------------------------
@@ -183,6 +135,7 @@ detect_plane_collision: {
 // ---------------------------------------------------------------------
 // Returns collision status in memory byte `bomb_collision`,
 // (0 for no collision, 1 for collision).
+// FIXME Should be moved into "bomb.asm"
 detect_bomb_collison: {
   // Local variables
   jmp after_vars
@@ -379,7 +332,7 @@ plane_fall:
 // Win as soon as there is no more tower blocks left.
 detect_win: {
   // If block_counter == 0 then it's a win!
-  lda block_counter 
+  lda block_counter
   beq yes
   no:
     rts
