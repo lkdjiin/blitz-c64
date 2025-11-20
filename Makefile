@@ -15,5 +15,10 @@ run: main.prg
 debug: main.vs
 	$(RUN) -moncommands main.vs main.prg
 
+update_libs:
+	rm -rf c64lib/
+	cp -r ../c64lib/ .
+	echo -n "c64lib " | cat - c64lib/VERSION
+
 clean :
 	$(CLEANUP) main.prg main.vs
