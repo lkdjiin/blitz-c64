@@ -34,14 +34,14 @@ update:
 
 // ---------------------------------------------------------------------
 update_plane:
-  inc SPRITE0_X
+  inc SPRITE_0_X
   {
     // If X == 0 then increase Y by 8 to make the plane going down
     bne then
-    lda SPRITE0_Y
+    lda SPRITE_0_Y
     clc
     adc #8
-    sta SPRITE0_Y
+    sta SPRITE_0_Y
     then:
   }
   rts
@@ -68,7 +68,7 @@ detect_plane_collision: {
     // need to check collision for every plane X position.
     // (if bits 0, 1 and 2 are clear, then it's a multiple of 8)
     lda #%00000111
-    and SPRITE0_X
+    and SPRITE_0_X
     beq next // We stay here if A == 0
     rts
     next:
@@ -78,7 +78,7 @@ detect_plane_collision: {
     // If plane X position < 64 then exit. Because there is no towers to
     // the left of the screen.
     lda #64
-    cmp SPRITE0_X
+    cmp SPRITE_0_X
     bcc next
     rts
     next:
@@ -88,15 +88,15 @@ detect_plane_collision: {
     // If plane X position > 192 then exit. Because no towers to the right
     // of the screen.
     lda #192
-    cmp SPRITE0_X
+    cmp SPRITE_0_X
     bcs next
     rts
     next:
   }
 
-  lda SPRITE0_X
+  lda SPRITE_0_X
   sta plane_x
-  lda SPRITE0_Y
+  lda SPRITE_0_Y
   sta plane_y
 
   ldx plane_x
@@ -165,7 +165,7 @@ detect_bomb_collison: {
     // need to check collision for every position, just the ones that
     // match with characters.
     lda #%00000111
-    and SPRITE1_Y
+    and SPRITE_1_Y
     beq next // We stay here if A == 0
     rts
     next:
@@ -175,15 +175,15 @@ detect_bomb_collison: {
     // If bomb Y position < 120 then exit. Because there is no towers to
     // the top of the screen.
     lda #120
-    cmp SPRITE1_Y
+    cmp SPRITE_1_Y
     bcc next
     rts
     next:
   }
 
-  lda SPRITE1_X
+  lda SPRITE_1_X
   sta bomb_x
-  lda SPRITE1_Y
+  lda SPRITE_1_Y
   sta bomb_y
 
   ldx bomb_x
@@ -320,9 +320,9 @@ destroy_tower_char:
 // ---------------------------------------------------------------------
 plane_fall:
   LongDelay(15)
-  inc SPRITE0_Y
+  inc SPRITE_0_Y
   lda #236
-  cmp SPRITE0_Y
+  cmp SPRITE_0_Y
   bne plane_fall
   LongDelay(255)
   LongDelay(255)

@@ -9,15 +9,15 @@ launch: {
 
   // Same X as the plane, but aligned on the previous multiple of 8, so
   // it's aligned with the towers.
-  lda SPRITE0_X
-  sta SPRITE1_X
+  lda SPRITE_0_X
+  sta SPRITE_1_X
   lda #%11111000
-  and SPRITE1_X
-  sta SPRITE1_X
+  and SPRITE_1_X
+  sta SPRITE_1_X
 
   // Appears more or less in the middle of the plane
-  lda SPRITE0_Y
-  sta SPRITE1_Y
+  lda SPRITE_0_Y
+  sta SPRITE_1_Y
 
   // Enable_bomb
   lda #%00000010
@@ -32,11 +32,11 @@ launch: {
 
 // ---------------------------------------------------------------------
 update: {
-  inc SPRITE1_Y
+  inc SPRITE_1_Y
   {
     // If Y == 229 then disable bomb
     lda #229
-    cmp SPRITE1_Y
+    cmp SPRITE_1_Y
     bne then
     jsr disable
     then:

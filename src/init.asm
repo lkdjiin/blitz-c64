@@ -15,16 +15,16 @@ init:
   lda #TOWN_WIDTH
   sta town_width
 
-  SetSpriteProperty(SPRITE0_X, 24)
-  SetSpriteProperty(SPRITE0_Y, 50)
-  SetSpriteProperty(SPRITE0_COLOR, GREEN)
-  SetSpriteProperty(SPRITE0_POINTER, $80)
+  SetSpriteProperty(SPRITE_0_X, 24)
+  SetSpriteProperty(SPRITE_0_Y, 50)
+  SetSpriteProperty(SPRITE_0_COLOR, GREEN)
+  SetSpriteProperty(SPRITE_0_POINTER, $80)
   SetSpriteProperty(SPRITES_ENABLE, %00000001)
 
-  SetSpriteProperty(SPRITE1_X, 100)
-  SetSpriteProperty(SPRITE1_Y, 0)
-  SetSpriteProperty(SPRITE1_COLOR, LIGHT_RED)
-  SetSpriteProperty(SPRITE1_POINTER, $81)
+  SetSpriteProperty(SPRITE_1_X, 100)
+  SetSpriteProperty(SPRITE_1_Y, 0)
+  SetSpriteProperty(SPRITE_1_COLOR, LIGHT_RED)
+  SetSpriteProperty(SPRITE_1_POINTER, $81)
 
   SetBlackBackground()
   SetYellowText()
