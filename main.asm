@@ -31,6 +31,7 @@ continue2:
   rts
 
 #import "src/init.asm"
+#import "src/irqs.asm"
 #import "src/update.asm"
 #import "src/render.asm"
 #import "src/inputs.asm"

@@ -34,6 +34,7 @@ init:
   SetYellowText()
   ClearScreen()
 
+  jsr init_irq
   jsr INFOZONE.draw
   jsr INFOZONE.display_score
   jsr INFOZONE.display_level
@@ -65,5 +66,27 @@ done_tower:
   inc town_left_column
   jmp draw_town
 done_town:
+  rts
+}
+
+// ---------------------------------------------------------------------
+init_irq: {
+  sei
+  lda #%01111111                   // ??? Not clear why we
+  sta INTERRUPT_CONTROL_AND_STATUS // ??? need this
+  lda INTERRUPT_CONTROL // Enable raster interrupt
+  ora #%00000001
+  sta INTERRUPT_CONTROL
+  lda SCREEN_CONTROL // Clear bit#8 of raster line interrupt
+  and #%01111111
+  sta SCREEN_CONTROL
+  lda #255
+  sta RASTER_LINE
+  // So now raster line #255 will generate an interrupt
+  lda #<irq1
+  sta INTERRUPT_SERVICE_ROUTINE_ADDRESS
+  lda #>irq1
+  sta INTERRUPT_SERVICE_ROUTINE_ADDRESS+1
+  cli
   rts
 }
