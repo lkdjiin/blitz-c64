@@ -4,6 +4,7 @@ BasicUpstart2(start)
 #import "c64lib/macros.asm"
 #import "src/constants.asm"
 
+*=* "Main"
 start:
 game_new:
   jsr init
