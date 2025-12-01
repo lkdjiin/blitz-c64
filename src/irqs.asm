@@ -1,9 +1,8 @@
 // ---------------------------------------------------------------------
 irq1: {
   PushAXY()
-  jsr plane_animation
-ack:
   dec INTERRUPT_STATUS // This is an illegible way to acknowledge the raster interrupt
+  jsr plane_animation
   PullYXA()
   jmp SYSTEM_IRQ_HANDLER
 }
