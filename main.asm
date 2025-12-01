@@ -44,3 +44,6 @@ continue2:
 
 *=$2000 "Sprites"
 #import "src/sprites_set.asm"
+
+*=$3000 "Character set"
+#import "src/character_set.asm"

@@ -31,9 +31,8 @@ init:
   SetSpriteProperty(SPRITE_1_POINTER, $83)
 
   SetBlackBackground()
-  SetYellowText()
-  ClearScreen()
 
+  jsr init_character_set
   jsr init_irq
   jsr INFOZONE.draw
   jsr INFOZONE.display_score
@@ -42,12 +41,35 @@ init:
   rts
 
 // ---------------------------------------------------------------------
+init_character_set:
+  // Character set at $3000 and VRAM at $0400.
+  lda #%00011100
+  sta MEMORY_SETUP
+
+  // Multicolor character mode on.
+  lda #%11011000
+  sta SCREEN_CONTROL_2
+
+  lda #BLACK
+  sta BORDER
+  // FIXME Why do I need 15 to mean yellow? Is it a bug in VICE, or in my code?
+  // Is there something special with multicolor mode?
+  lda #11
+  sta COLOR_CURRENT
+  lda #LIGHT_BLUE
+  sta EXTRA_COLOR_1
+  lda #WHITE
+  sta EXTRA_COLOR_2
+  ClearScreen()
+  rts
+
+// ---------------------------------------------------------------------
 draw_town: {
   StoreWord(SCREEN_ROW_24, TOWER_BASE_PTR)
   RandomRange(3, 12)
   sta tower_height
   ldy town_left_column
-  RandomRange(0, 7)
+  RandomRange(0, 4)
   tax
   lda tower_face,x
   sta BLOCK_PTR
