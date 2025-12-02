@@ -1,6 +1,8 @@
 // ---------------------------------------------------------------------
 init:
-  jsr rnd.init
+  lda JIFFY_LOW
+  sta random_tower_height_index
+  sta random_tower_face_index
 
   lda #0
   sta game_lost
@@ -45,6 +47,7 @@ init:
   jsr INFOZONE.display_score
   jsr INFOZONE.display_level
   jsr draw_town
+
   rts
 
 // ---------------------------------------------------------------------
@@ -73,10 +76,14 @@ init_character_set:
 // ---------------------------------------------------------------------
 draw_town: {
   StoreWord(SCREEN_ROW_24, TOWER_BASE_PTR)
-  RandomRange(3, 12)
+  inc random_tower_height_index
+  ldx random_tower_height_index
+  lda random_tower_height,x
   sta tower_height
   ldy town_left_column
-  RandomRange(0, 4)
+  inc random_tower_face_index
+  ldx random_tower_face_index
+  lda random_tower_face,x
   tax
   lda tower_face,x
   sta BLOCK_PTR

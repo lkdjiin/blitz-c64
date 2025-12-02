@@ -24,8 +24,6 @@ launch: {
   ora SPRITES_ENABLE
   sta SPRITES_ENABLE
 
-  jsr SOUND.beep
-
   launch_bomb_done:
   rts
 } // launch

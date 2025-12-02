@@ -3,9 +3,12 @@ BasicUpstart2(start)
 #import "6502lib/macros.asm"
 #import "c64lib/macros.asm"
 #import "src/constants.asm"
+.var music = LoadSid("blitz.sid")
 
 *=* "Main"
 start:
+  lda #music.startSong - 1
+  jsr music.init
 game_new:
   jsr init
 game_loop:
@@ -37,10 +40,15 @@ continue2:
 #import "src/inputs.asm"
 #import "src/game.asm"
 #import "src/bomb.asm"
-#import "src/sound.asm"
 #import "src/infozone.asm"
 #import "src/variables.asm"
 #import "src/external_routines.asm"
+
+*=music.location "Music" // $1000
+.fill music.size, music.getData(i)
+
+*=$1d00 "Random tables"
+#import "src/random_tables.asm"
 
 *=$2000 "Sprites"
 #import "src/sprites_set.asm"

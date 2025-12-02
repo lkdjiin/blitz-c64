@@ -12,3 +12,6 @@ tower_height: .byte 0 // Height of a tower in characters
 
 town_left_column: .byte 8 // First column of the town
 town_width: .byte 16 // Width of the town in characters
+
+random_tower_face_index: .byte 0 // Index in the random table
+random_tower_height_index: .byte 0 // Index in the random table

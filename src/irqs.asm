@@ -2,6 +2,7 @@
 irq1: {
   PushAXY()
   dec INTERRUPT_STATUS // This is an illegible way to acknowledge the raster interrupt
+  jsr music.play
   jsr plane_animation
   PullYXA()
   jmp SYSTEM_IRQ_HANDLER
