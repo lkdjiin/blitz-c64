@@ -23,12 +23,19 @@ init:
   SetSpriteProperty(SPRITE_0_Y, 50)
   SetSpriteProperty(SPRITE_0_COLOR, WHITE)
   SetSpriteProperty(SPRITE_0_POINTER, $80)
-  SetSpriteProperty(SPRITES_ENABLE, %00000001)
 
   SetSpriteProperty(SPRITE_1_X, 100)
   SetSpriteProperty(SPRITE_1_Y, 0)
   SetSpriteProperty(SPRITE_1_COLOR, LIGHT_RED)
   SetSpriteProperty(SPRITE_1_POINTER, $83)
+
+  SetSpriteProperty(SPRITE_2_X, 150)
+  SetSpriteProperty(SPRITE_2_Y, 80)
+  SetSpriteProperty(SPRITE_2_COLOR, WHITE)
+  SetSpriteProperty(SPRITE_2_POINTER, $84)
+
+  SetSpriteProperty(SPRITES_DOUBLE_WIDTH, %00000100)
+  SetSpriteProperty(SPRITES_ENABLE, %00000101)
 
   SetBlackBackground()
 
