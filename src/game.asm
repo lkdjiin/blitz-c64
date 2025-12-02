@@ -28,6 +28,7 @@ reset_score: {
 reset_level: {
   lda #1
   sta GAME.level
+  lda #0
   sta GAME.level + 1
   rts
 } // reset_level
